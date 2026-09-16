@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PTA 数据结构与算法题目集中文版题解与 C 语言实现说明">
-  <title>DSAPS by C · PTA 题解</title>
+  <meta name="description" content="PTA 数据结构与算法题目集中文版题解与 Python 语言实现说明">
+  <title>DSAPS by Python · PTA 题解</title>
   <script>
     (function () {
       var saved = localStorage.getItem('docsify-dark-mode');
@@ -194,8 +194,8 @@
 
   <script>
     window.$docsify = {
-      name: 'DSAPS by C',
-      repo: 'https://github.com/pta-program/DSAPS_article_by_C',
+      name: 'DSAPS by Python',
+      repo: 'https://github.com/pta-program/DSAPS_article_by_python',
       homepage: 'README.md',
       loadSidebar: true,
       alias: { '/.*/_sidebar.md': '/_sidebar.md' },
@@ -220,6 +220,9 @@
         buttonText: '复制代码',
         errorText: '复制失败',
         successText: '已复制'
+      },
+      mermaidConfig: {
+        querySelector: '.mermaid'
       }
     };
 
@@ -254,6 +257,11 @@
       });
     })();
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: false });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2.0.1/dist/docsify-mermaid.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
