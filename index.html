@@ -229,7 +229,9 @@
         successText: '已复制'
       },
       mermaidConfig: {
-        querySelector: '.mermaid'
+        querySelector: '.mermaid',
+        maxTextSize: 20000,
+        maxEdges: 200
       }
     };
 
@@ -266,7 +268,20 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js"></script>
   <script>
-    mermaid.initialize({ startOnLoad: false });
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      // Keep client-side diagram rendering bounded on long-lived Docsify pages.
+      maxTextSize: 20000,
+      maxEdges: 200,
+      flowchart: {
+        htmlLabels: false,
+        useMaxWidth: true,
+        nodeSpacing: 24,
+        rankSpacing: 24,
+        diagramPadding: 8
+      }
+    });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2.0.1/dist/docsify-mermaid.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
