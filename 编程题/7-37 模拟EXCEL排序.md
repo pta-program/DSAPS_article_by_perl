@@ -33,11 +33,11 @@ Excel可以对一组纪录按任意指定列排序。现请编写程序实现类
 
 1. **数据结构**：使用结构体（或类）存储每条学生记录
 2. **排序策略**：
-   - 使用语言内置的排序函数（如 C++ 的 `sort`、Python 的 `sorted`）
+   - 使用语言内置的排序函数（如 C++ 的 `sort`、Perl 的 `sort`）
    - 自定义比较函数或 lambda 表达式实现多级排序
 3. **性能注意**：
    - 输入规模可达 10⁵，需注意输入读取效率
-   - Python 建议使用 `sys.stdin` 或 `sys.stdin.buffer` 高效读取
+   - Perl 建议一次读取标准输入并拆分为令牌，减少逐行输入开销
 4. **稳定排序**：学号作为次要排序键，确保排序结果的唯一性
 
 ## 解题思路
@@ -54,28 +54,26 @@ Excel可以对一组纪录按任意指定列排序。现请编写程序实现类
 ## 代码实现
 
 
-```python
-"""按指定列构造复合排序键，姓名/成绩相同时以学号升序。"""
+```perl
+# 按题目指定列构造排序键；姓名或成绩相同时使用学号升序。
+use strict;
+use warnings;
 
-
-def main():
-    import sys
-    lines = sys.stdin.buffer.read().decode().splitlines()
-    if not lines:
-        return
-    n, column = map(int, lines[0].split())
-    records = [line.split() for line in lines[1:1 + n]]
-    if column == 1:
-        records.sort(key=lambda item: item[0])
-    elif column == 2:
-        records.sort(key=lambda item: (item[1], item[0]))
-    else:
-        records.sort(key=lambda item: (int(item[2]), item[0]))
-    print("\n".join(" ".join(record) for record in records))
-
-
-if __name__ == "__main__":
-    main()
+my $input = do { local $/; <STDIN> // '' };
+my @lines = split /\n/, $input;
+exit unless @lines;
+my ( $n, $column ) = split ' ', shift @lines;
+my @records = map { [ split ' ', $_ ] } @lines[ 0 .. $n - 1 ];
+if ( $column == 1 ) {
+    @records = sort { $a->[0] cmp $b->[0] } @records;
+}
+elsif ( $column == 2 ) {
+    @records = sort { $a->[1] cmp $b->[1] || $a->[0] cmp $b->[0] } @records;
+}
+else {
+    @records = sort { $a->[2] <=> $b->[2] || $a->[0] cmp $b->[0] } @records;
+}
+print join( "\n", map { join( ' ', @{$_} ) } @records ), "\n";
 ```
 
 ## 代码流程图

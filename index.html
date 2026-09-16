@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PTA 数据结构与算法题目集中文版题解与 Python 语言实现说明">
-  <title>DSAPS by Python · PTA 题解</title>
+  <meta name="description" content="PTA 数据结构与算法题目集中文版题解与 Perl 语言实现说明">
+  <title>DSAPS by Perl · PTA 题解</title>
   <script>
     (function () {
       var saved = localStorage.getItem('docsify-dark-mode');
@@ -194,9 +194,16 @@
 
   <script>
     window.$docsify = {
-      name: 'DSAPS by Python',
-      repo: 'https://github.com/pta-program/DSAPS_article_by_python',
+      name: 'DSAPS by Perl',
+      repo: 'https://github.com/pta-program/DSAPS_article_by_perl',
       homepage: 'README.md',
+      plugins: [
+        function (hook) {
+          hook.doneEach(function () {
+            document.title = 'DSAPS by Perl · PTA 题解';
+          });
+        }
+      ],
       loadSidebar: true,
       alias: { '/.*/_sidebar.md': '/_sidebar.md' },
       subMaxLevel: 0,

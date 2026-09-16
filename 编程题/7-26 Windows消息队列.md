@@ -51,33 +51,69 @@ EMPTY QUEUE!
 ## 代码实现
 
 
-```python
-"""heapq 实现按优先级升序的最小堆，GET 弹出优先级最高的消息。"""
+```perl
+# 自定义最小堆按优先级取消息；优先级相同时按消息名排序。
+use strict;
+use warnings;
 
+my $input  = do { local $/; <STDIN> // '' };
+my @tokens = grep { length } split /\s+/, $input;
+exit unless @tokens;
+my @heap;
+my @output;
+my $pos = 1;
 
-def main():
-    import heapq
-    import sys
-    tokens = sys.stdin.buffer.read().decode().split()
-    if not tokens:
-        return
-    heap, output, pos = [], [], 1
-    for _ in range(int(tokens[0])):
-        command = tokens[pos]
-        pos += 1
-        if command == "PUT":
-            name, priority = tokens[pos], int(tokens[pos + 1])
-            pos += 2
-            heapq.heappush(heap, (priority, name))
-        elif heap:
-            output.append(heapq.heappop(heap)[1])
-        else:
-            output.append("EMPTY QUEUE!")
-    print("\n".join(output))
+sub heap_push {
+    my ($item) = @_;
+    push @heap, $item;
+    my $i = $#heap;
+    while ( $i > 0 ) {
+        my $parent = int( ( $i - 1 ) / 2 );
+        last
+          if $heap[$parent][0] < $item->[0]
+          || ( $heap[$parent][0] == $item->[0]
+            && $heap[$parent][1] le $item->[1] );
+        $heap[$i] = $heap[$parent];
+        $i = $parent;
+    }
+    $heap[$i] = $item;
+}
 
-
-if __name__ == "__main__":
-    main()
+sub heap_pop {
+    my $result = $heap[0];
+    my $last   = pop @heap;
+    return $result unless @heap;
+    my $i = 0;
+    while (1) {
+        my $left = 2 * $i + 1;
+        last if $left >= @heap;
+        my $right = $left + 1;
+        my $child = $right < @heap
+          && (
+            $heap[$right][0] < $heap[$left][0]
+            || (   $heap[$right][0] == $heap[$left][0]
+                && $heap[$right][1] lt $heap[$left][1] )
+          ) ? $right : $left;
+        last
+          if $last->[0] < $heap[$child][0]
+          || ( $last->[0] == $heap[$child][0]
+            && $last->[1] le $heap[$child][1] );
+        $heap[$i] = $heap[$child];
+        $i = $child;
+    }
+    $heap[$i] = $last;
+    return $result;
+}
+for ( 1 .. $tokens[0] ) {
+    my $command = $tokens[ $pos++ ];
+    if ( $command eq 'PUT' ) {
+        heap_push( [ 0 + $tokens[ $pos + 1 ], $tokens[$pos] ] );
+        $pos += 2;
+    }
+    elsif (@heap) { push @output, heap_pop()->[1] }
+    else          { push @output, 'EMPTY QUEUE!' }
+}
+print join( "\n", @output ), "\n" if @output;
 ```
 
 ## 代码流程图
