@@ -15,7 +15,7 @@ Excel可以对一组纪录按任意指定列排序。现请编写程序实现类
 在 n 行中输出按要求排序后的结果，即：当 c=1 时，按学号递增排序；当 c=2 时，按姓名的非递减字典序排序；当 c=3 时，按成绩的非递减排序。当若干学生具有相同姓名或者相同成绩时，则按他们的学号递增排序。
 
 ## 输入样例
-```
+```text
 3 1
 000007 James 85
 000010 Amy 90
@@ -23,7 +23,7 @@ Excel可以对一组纪录按任意指定列排序。现请编写程序实现类
 ```
 
 ## 输出样例
-```
+```text
 000001 Zoe 60
 000007 James 85
 000010 Amy 90
@@ -37,7 +37,7 @@ Excel可以对一组纪录按任意指定列排序。现请编写程序实现类
    - 自定义比较函数或 lambda 表达式实现多级排序
 3. **性能注意**：
    - 输入规模可达 10⁵，需注意输入读取效率
-   - C/C++ 建议使用 `scanf`，Python 建议使用 `sys.stdin`
+   - Python 建议使用 `sys.stdin` 或 `sys.stdin.buffer` 高效读取
 4. **稳定排序**：学号作为次要排序键，确保排序结果的唯一性
 
 ## 解题思路
@@ -54,88 +54,28 @@ Excel可以对一组纪录按任意指定列排序。现请编写程序实现类
 ## 代码实现
 
 
-```c
-/*
- * 实现原理：
- * 1. 问题本质：多关键字排序问题，根据指定列号对学生记录进行排序
- * 2. 排序规则：
- *    - c=1：按学号递增排序（学号唯一）
- *    - c=2：按姓名非递减字典序排序，姓名相同时按学号递增排序
- *    - c=3：按成绩非递减排序，成绩相同时按学号递增排序
- * 3. 数据结构：使用结构体存储学生记录（学号、姓名、成绩）
- * 4. 算法选择：使用qsort函数进行排序，自定义比较函数实现多级排序
- * 5. 输入输出：使用scanf/printf进行高效的输入输出，适合大规模数据
- */
+```python
+"""按指定列构造复合排序键，姓名/成绩相同时以学号升序。"""
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_N 100001  // 最大记录条数（10^5 + 1）
+def main():
+    import sys
+    lines = sys.stdin.buffer.read().decode().splitlines()
+    if not lines:
+        return
+    n, column = map(int, lines[0].split())
+    records = [line.split() for line in lines[1:1 + n]]
+    if column == 1:
+        records.sort(key=lambda item: item[0])
+    elif column == 2:
+        records.sort(key=lambda item: (item[1], item[0]))
+    else:
+        records.sort(key=lambda item: (int(item[2]), item[0]))
+    print("\n".join(" ".join(record) for record in records))
 
-// 学生记录结构体
-typedef struct Student {
-    char id[7];      // 学号，6位数字，加1位结束符
-    char name[9];    // 姓名，最多8位字符，加1位结束符
-    int score;       // 成绩，0-100的整数
-} Student;
 
-Student students[MAX_N];  // 存储所有学生记录
-int sort_column;          // 全局变量，存储当前排序的列号
-
-// 比较函数，用于qsort
-int cmp(const void *a, const void *b) {
-    Student *sa = (Student *)a;
-    Student *sb = (Student *)b;
-    
-    switch (sort_column) {
-        case 1:
-            // c=1：按学号递增排序
-            return strcmp(sa->id, sb->id);
-        case 2:
-            // c=2：按姓名排序，姓名相同时按学号排序
-            {
-                int name_cmp = strcmp(sa->name, sb->name);
-                if (name_cmp != 0) {
-                    return name_cmp;
-                }
-            }
-            // 姓名相同，按学号递增排序
-            return strcmp(sa->id, sb->id);
-        case 3:
-            // c=3：按成绩排序，成绩相同时按学号排序
-            if (sa->score != sb->score) {
-                return sa->score - sb->score;
-            }
-            // 成绩相同，按学号递增排序
-            return strcmp(sa->id, sb->id);
-        default:
-            return 0;
-    }
-}
-
-int main() {
-    int n, c;
-    // 读取记录条数n和排序列号c
-    scanf("%d %d", &n, &c);
-    
-    sort_column = c;  // 设置全局排序列号
-    
-    // 读取n条学生记录
-    for (int i = 0; i < n; i++) {
-        scanf("%s %s %d", students[i].id, students[i].name, &students[i].score);
-    }
-    
-    // 使用qsort进行排序
-    qsort(students, n, sizeof(Student), cmp);
-    
-    // 输出排序后的结果
-    for (int i = 0; i < n; i++) {
-        printf("%s %s %d\n", students[i].id, students[i].name, students[i].score);
-    }
-    
-    return 0;
-}
+if __name__ == "__main__":
+    main()
 ```
 
 ## 代码流程图

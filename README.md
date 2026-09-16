@@ -1,6 +1,6 @@
-## DSAPS by C
+## DSAPS by Python
 
-PTA《数据结构与算法题目集（中文版）》的题解与 C 语言实现说明。
+PTA《数据结构与算法题目集（中文版）》的题解与 Python 语言实现说明。
 
 本仓库已配置为 Docsify 静态站点，可通过 GitHub Pages 在线浏览。打开左侧导航即可查看全部题目，也可以使用搜索框按题号或关键词检索。
 
@@ -9,14 +9,14 @@ PTA《数据结构与算法题目集（中文版）》的题解与 C 语言实�
 - [函数题](./函数题/)：12 道函数实现题的题意、接口说明、思路和代码示例。
 - [编程题](./编程题/)：53 道完整程序题的题意、输入输出、算法分析和代码示例。
 
-共收录 65 道题目。每个 Markdown 文件都是一篇独立题解，题解中的代码块保留了适合提交和学习的 C/C++ 示例。
+共收录 65 道题目。每个 Markdown 文件都是一篇独立题解，题解中的代码块统一整理为适合提交和学习的 Python 示例。
 
 ## 在线阅读
 
 Pages 启用并完成首次 Actions 部署后，站点地址为：
 
 ```text
-https://pta-program.github.io/DSAPS_article_by_C/
+https://pta-program.github.io/DSAPS_article_by_python/
 ```
 
 页面提供以下功能：
@@ -44,7 +44,7 @@ python3 -m http.server 8899 --bind 127.0.0.1
 ## 目录结构
 
 ```text
-DSAPS_by_C/
+DSAPS_article_by_python/
 ├── index.html                  # Docsify 入口与站点样式
 ├── _sidebar.md                 # 全部题目导航
 ├── .nojekyll                   # GitHub Pages 静态资源标记
